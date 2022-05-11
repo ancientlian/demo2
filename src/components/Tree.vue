@@ -14,6 +14,7 @@
             class="filter-tree"
             :data="data"
             :props="defaultProps"
+            node-key="id"
             default-expand-all
             show-checkbox
             highlight-current
@@ -21,7 +22,13 @@
             @check-change="handleCheckChange"
             ref="tree">
           </el-tree>
-
+          <div class="buttons">
+            <el-button @click="getCheckedNodes">通过 node 获取</el-button>
+            <el-button @click="getCheckedKeys">通过 key 获取</el-button>
+            <el-button @click="setCheckedNodes">通过 node 设置</el-button>
+            <el-button @click="setCheckedKeys">通过 key 设置</el-button>
+            <el-button @click="resetChecked">清空</el-button>
+          </div>
 
         </div>
       </el-col>
@@ -49,6 +56,30 @@ export default {
   },
 
   methods: {
+    // 如何获取和设置选中节点。获取和设置各有两种方式：通过 node 或通过 key。如果需要通过 key 来获取或设置，则必须设置node-key。
+    getCheckedNodes() {
+      console.log(this.$refs.tree.getCheckedNodes());
+    },
+    getCheckedKeys() {
+      console.log(this.$refs.tree.getCheckedKeys());
+    },
+    setCheckedNodes() {
+      this.$refs.tree.setCheckedNodes([{
+        id: 5,
+        label: '二级 2-1'
+      }, {
+        id: 9,
+        label: '三级 1-1-1'
+      }]);
+    },
+    setCheckedKeys() {
+      this.$refs.tree.setCheckedKeys([3]);
+    },
+    resetChecked() {
+      this.$refs.tree.setCheckedKeys([]);
+    },
+
+    // ------
     filterNode(value, data) {
       if (!value) return true;
       return data.label.indexOf(value) !== -1;
@@ -57,8 +88,8 @@ export default {
       // console.log(data, checked, indeterminate);
       console.log(data);
 
-      // let a = this.$refs.tree.getCheckedKeys()
-      // console.log(a)
+      let a = this.$refs.tree.getCheckedKeys()
+      console.log(a)
       console.log(data.id)
     },
     handleNodeClick(data) {
