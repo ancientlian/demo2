@@ -17,6 +17,7 @@
             node-key="id"
             default-expand-all
             show-checkbox
+            :check-strictly="checkStrictly"
             highlight-current
             :filter-node-method="filterNode"
             @check-change="handleCheckChange"
@@ -28,6 +29,8 @@
             <el-button @click="setCheckedNodes">通过 node 设置</el-button>
             <el-button @click="setCheckedKeys">通过 key 设置</el-button>
             <el-button @click="resetChecked">清空</el-button>
+            <el-button @click="addAllNode" style="background: rebeccapurple">添加树节点</el-button>
+
           </div>
 
         </div>
@@ -56,9 +59,25 @@ export default {
   },
 
   methods: {
+    addAllNode() {
+      // console.log(this.$refs.tree.getCheckedNodes());
+      this.nodeData=this.$refs.tree.getCheckedNodes(true,false)
+
+      console.log(this.nodeData)
+    },
+
+
     // 如何获取和设置选中节点。获取和设置各有两种方式：通过 node 或通过 key。如果需要通过 key 来获取或设置，则必须设置node-key。
     getCheckedNodes() {
-      console.log(this.$refs.tree.getCheckedNodes());
+
+      // this.checkStrictly = true
+      // this.$nextTick(() => {
+      //   this.$refs.tree.setCheckedNodes(true) //给树节点赋值
+      //   this.checkStrictly = false //重点： 赋值完成后 设置为false
+      // })
+      console.log(this.$refs.tree.getCheckedNodes(true,false));
+
+
     },
     getCheckedKeys() {
       console.log(this.$refs.tree.getCheckedKeys());
@@ -86,11 +105,9 @@ export default {
     },
     handleCheckChange(data, checked, indeterminate) {
       // console.log(data, checked, indeterminate);
-      console.log(data);
+      // console.log(data);
 
-      let a = this.$refs.tree.getCheckedKeys()
-      console.log(a)
-      console.log(data.id)
+      // console.log(data.id)
     },
     handleNodeClick(data) {
       console.log(data);
@@ -99,6 +116,8 @@ export default {
 
   data() {
     return {
+      nodeData:[],
+      checkStrictly: false,
       filterText: '',
       data: [{
         id: 1,
