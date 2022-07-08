@@ -6,7 +6,8 @@
 
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>卡片名称</span>
+        <span>{{currentNode}} </span>
+<!--        <slot>no</slot>-->
         <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
       </div>
       <div v-for="o in 4" :key="o" class="text item">
@@ -18,7 +19,21 @@
 
 <script>
 export default {
-  name: "Card"
+  name: "Card",
+  props: {
+    currentNode: String,
+  },
+  // props:["currentNode"],
+  mounted() {
+    console.log("mounted + this.currentNode");
+    console.log(this.currentNode);
+  },
+  data(){
+    return{
+      cu:"",
+
+    }
+  }
 }
 </script>
 

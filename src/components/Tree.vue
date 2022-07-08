@@ -38,7 +38,11 @@
       <el-col :span="16">
         <div class="grid-content bg-purple-light">
 
-          <card></card>
+          <card v-for="node in nodeData" :key="node" :current-node= "currentNode" >
+<!--<template v-slot:default>-->
+<!--  <span>{{ currentNode }}</span>-->
+<!--</template>-->
+          </card>
         </div>
       </el-col>
     </el-row>
@@ -61,7 +65,7 @@ export default {
   methods: {
     addAllNode() {
       // console.log(this.$refs.tree.getCheckedNodes());
-      this.nodeData=this.$refs.tree.getCheckedNodes(true,false)
+      this.nodeData = this.$refs.tree.getCheckedNodes(true, false)
 
       console.log(this.nodeData)
     },
@@ -75,7 +79,7 @@ export default {
       //   this.$refs.tree.setCheckedNodes(true) //给树节点赋值
       //   this.checkStrictly = false //重点： 赋值完成后 设置为false
       // })
-      console.log(this.$refs.tree.getCheckedNodes(true,false));
+      console.log(this.$refs.tree.getCheckedNodes(true, false));
 
 
     },
@@ -108,6 +112,13 @@ export default {
       // console.log(data);
 
       // console.log(data.id)
+      if (data.children == null) {
+        this.nodeData.push(data.label);
+        this.currentNode = data.label;
+      }
+      console.log( "this.currentNode");
+      console.log( this.currentNode);
+
     },
     handleNodeClick(data) {
       console.log(data);
@@ -116,7 +127,8 @@ export default {
 
   data() {
     return {
-      nodeData:[],
+      currentNode: "",
+      nodeData: [],
       checkStrictly: false,
       filterText: '',
       data: [{
